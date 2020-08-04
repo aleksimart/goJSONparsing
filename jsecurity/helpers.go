@@ -1,3 +1,6 @@
+// Package jsecurity allows developers to decode JSON body in a secure way and
+// generates user friendly messages for errors that don't provide too much information
+// of how the server works
 package jsecurity
 
 import (
@@ -11,6 +14,8 @@ import (
     "github.com/golang/gddo/httputil/header"
 )
 
+// Structure MalformedRequest contains an http status and 
+// a message for the user
 type MalformedRequest struct {
     Status  int
     Msg     string
@@ -20,6 +25,8 @@ func (mr *MalformedRequest) Error() string {
     return mr.Msg
 }
 
+// DecodeJSONBody attempts decoding the JSON body into interface provided
+// and returns an error if there are any present
 func DecodeJSONBody(w http.ResponseWriter, r *http.Request, dst interface{}) error {
     // Ensure that if a request has a header with content-type, then it has application/json value
     if r.Header.Get("Content-Type") != "" {
